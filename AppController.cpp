@@ -14,19 +14,16 @@ void AppController::loadPeople()
     this->people = this->fileSystem->getPeopleF();
 }
 
-AppController::AppController(int fileType)
-{
-    switch (fileType)
-    {
-    case 0:
-        this->fileSystem = new FileSystemF();
-        break;
-    case 1:
-        // this->fileSystem = new FileSystemPGSQL();
-        break;
-    default:
-        throw string("Invalid FileSystem");
-        break;
+AppController::AppController(StorageType type) {
+    switch (type) {
+        case StorageType::FileFs:
+            this->fileSystem = new FileSystemF();
+            break;
+        case StorageType::Pgsql:
+            // this->fileSystem = new FileSystemPGSQL();
+            break;
+        default:
+            throw string("Invalid FileSystem");
     }
     this->loadPeople();
 }

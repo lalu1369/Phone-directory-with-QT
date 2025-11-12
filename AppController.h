@@ -4,10 +4,10 @@
 #include "person.h"
 #include "IFileSystem.h"
 
-// enum FileTypeEnum {
-//   FILE,
-//   PGSQL
-// };
+enum class StorageType {
+   FileFs = 0,
+   Pgsql  = 1
+};
 
 class AppController
 {
@@ -19,7 +19,7 @@ private:
    void loadPeople();
 
 public:
-   AppController(int);
+   AppController(StorageType type);
 
 public:
    std::list<Person> getPeople();

@@ -4,3 +4,5 @@
 3|+78121234567|home|+78121234567|otro|+78121234567|otro2|
 4|Nombre cambiado|Limpias|Algo|la13|20-02-2005|luciana@mail.com
 3|+78121234567|home|+78121234567|otro|+78121234567|otro2|
+4|roberto|Dominguez|robertobich|la13|20-02-2000|roberto@gmail.com
+2|89095886432|work|+79095886230|home|
