@@ -20,7 +20,6 @@ AppController::AppController(StorageType type) {
             this->fileSystem = new FileSystemF();
             break;
         case StorageType::Pgsql:
-            // this->fileSystem = new FileSystemPGSQL();
             break;
         default:
             throw string("Invalid FileSystem");

@@ -13,38 +13,48 @@ bool Person::validateNames(const string& _name) const
 {
     return (regex_match(_name, regex(R"(^[A-Za-zА-Яа-яЁё][A-Za-zА-Яа-яЁё0-9 -]*[A-Za-zА-Яа-яЁё0-9]$)")));
 }
-bool Person::validateBirthDate(const string& _birthdate_) const 
+#include <regex>
+#include <ctime>
+
+bool Person::validateBirthDate(const std::string& _birthdate_) const 
 {
-    return true;
-    string _birthdate = _birthdate_;
+    std::string _birthdate = _birthdate_;
+
+    
     while (!_birthdate.empty() && (_birthdate.front() == ' ' || _birthdate.front() == '\t'))
-            _birthdate.erase(_birthdate.begin());
+        _birthdate.erase(_birthdate.begin());
+
+    
     while (!_birthdate.empty() && (_birthdate.back() == ' ' || _birthdate.back() == '\t'))
-            _birthdate.pop_back();
+        _birthdate.pop_back();
 
-    // YYYY-MM-DD
-    //regex re(R"(^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$)");
-    //DD-MM-yy
-    regex re(R"(^((?:0[1-9]|[12]\d|3[01]))-((?:0[1-9]|1[0-2]))-(\d{4})$)");
+    
+    std::regex re(R"(^((?:0[1-9]|[12]\d|3[01]))-((?:0[1-9]|1[0-2]))-(\d{4})$)");
+    std::smatch m;
 
-    smatch m;
-    if (!regex_match(_birthdate, m, re))
-        return false; 
+   
+    if (!std::regex_match(_birthdate, m, re))
+        return false;
 
-    // Convertir los grupos a números
-    int year  = stoi(m[1].str());
-    int month = stoi(m[2].str());
-    int day   = stoi(m[3].str());
+    
+    int day   = std::stoi(m[1].str());
+    int month = std::stoi(m[2].str());
+    int year  = std::stoi(m[3].str());
 
-    // Validar días por mes y bisiesto
+    if (year < 1900) return false;
+
     int mdays[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     bool leap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    if (leap && month == 2) mdays[1] = 29;
-    if (day > mdays[month - 1]) return false;
 
-    // Debe ser anterior a la fecha actual
+    if (leap && month == 2)
+        mdays[1] = 29;
+
+    if (day > mdays[month - 1])
+        return false;
+
     time_t t = time(nullptr);
     tm* now = localtime(&t);
+
     int cY = now->tm_year + 1900;
     int cM = now->tm_mon + 1;
     int cD = now->tm_mday;
@@ -55,6 +65,7 @@ bool Person::validateBirthDate(const string& _birthdate_) const
 
     return true;
 }
+
 
 bool Person::validateEmail(const string& _email) const 
 {
